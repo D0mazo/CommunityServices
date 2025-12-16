@@ -10,8 +10,8 @@ namespace CommunityServices.Services
             var existing = users.GetByUsername("admin");
             if (existing != null) return;
 
-            // default: admin / Admin123!
-            var hash = PasswordHasher.Hash("Admin123!");
+            // default: admin/Admin123
+            var hash = PasswordHasher.Hash("Admin123");
             users.CreateUser("admin", hash, "Admin", "Admin", Role.ADMIN, null);
         }
     }

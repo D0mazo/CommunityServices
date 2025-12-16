@@ -1,8 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using MySqlConnector;
+﻿using MySqlConnector;
 using System.Configuration;
-using System.Collections.Generic;
-
 
 namespace CommunityServices.Data
 {
@@ -10,7 +7,10 @@ namespace CommunityServices.Data
     {
         public static MySqlConnection OpenConnection()
         {
-            var cs = ConfigurationManager.ConnectionStrings["MyDb"].ConnectionString;
+            var cs = ConfigurationManager
+                .ConnectionStrings["MyDb"]
+                .ConnectionString;
+
             var conn = new MySqlConnection(cs);
             conn.Open();
             return conn;

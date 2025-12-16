@@ -1,7 +1,7 @@
 ﻿using CommunityServices.Domain;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+using System;
 using System.Collections.Generic;
-
 
 namespace CommunityServices.Data
 {
@@ -12,6 +12,7 @@ namespace CommunityServices.Data
         {
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
+
             cmd.CommandText = @"
 SELECT id, username, password_hash, first_name, last_name, role, community_id
 FROM users
@@ -22,10 +23,12 @@ LIMIT 1;";
             using var r = cmd.ExecuteReader();
             if (!r.Read()) return null;
 
-            var roleStr = r.GetString("role");
-            var role = Enum.Parse<Role>(roleStr);
+            var role = Enum.Parse<Role>(r.GetString("role"));
 
-            int? communityId = r.IsDBNull(r.GetOrdinal("community_id")) ? null : r.GetInt32("community_id");
+            int? communityId =
+                r.IsDBNull(r.GetOrdinal("community_id"))
+                ? null
+                : r.GetInt32("community_id");
 
             return (
                 r.GetInt32("id"),
@@ -42,10 +45,12 @@ LIMIT 1;";
         {
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
+
             cmd.CommandText = @"
 INSERT INTO users (username, password_hash, first_name, last_name, role, community_id)
 VALUES (@u, @p, @fn, @ln, @r, @cid);
 SELECT LAST_INSERT_ID();";
+
             cmd.Parameters.AddWithValue("@u", username);
             cmd.Parameters.AddWithValue("@p", passwordHash);
             cmd.Parameters.AddWithValue("@fn", firstName);
@@ -60,6 +65,7 @@ SELECT LAST_INSERT_ID();";
         {
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
+
             cmd.CommandText = @"DELETE FROM users WHERE id=@id;";
             cmd.Parameters.AddWithValue("@id", userId);
 

@@ -1,5 +1,6 @@
 ﻿using CommunityServices.Data;
 using CommunityServices.Domain;
+using System;
 
 namespace CommunityServices.Services
 {
@@ -14,6 +15,9 @@ namespace CommunityServices.Services
 
         public User Login(string username, string password)
         {
+            username = username.Trim();
+            password = password.Trim();
+
             var row = _users.GetByUsername(username);
             if (row == null)
                 throw new UnauthorizedAccessException("Neteisingas prisijungimo vardas arba slaptažodis.");
@@ -31,5 +35,6 @@ namespace CommunityServices.Services
                 _ => throw new InvalidOperationException("Nežinoma rolė.")
             };
         }
+
     }
 }

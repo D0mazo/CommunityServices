@@ -1,9 +1,7 @@
 ﻿using CommunityServices.Domain;
 using CommunityServices.Services;
 using System;
-using System.Reflection.Emit;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 using System.Collections.Generic;
 
 
@@ -33,7 +31,7 @@ namespace CommunityServices.UI
             Height = 260;
             Controls.AddRange(new Control[] { txtUser, txtPass, btnLogin, lblInfo });
 
-            lblInfo.Text = "Default admin: admin / Admin123!";
+            lblInfo.Text = "Default admin: admin/Admin123";
             btnLogin.Click += (_, __) => DoLogin();
 
             AcceptButton = btnLogin;
@@ -43,7 +41,7 @@ namespace CommunityServices.UI
         {
             try
             {
-                var user = _auth.Login(txtUser.Text.Trim(), txtPass.Text);
+                var user = _auth.Login(txtUser.Text.Trim(),txtPass.Text.Trim());
                 Hide();
 
                 var main = new MainForm(user, _adminService, _managerService, _residentService);
