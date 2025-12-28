@@ -2,8 +2,6 @@
 using CommunityServices.Services;
 using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
-
 
 namespace CommunityServices.UI
 {
@@ -41,11 +39,22 @@ namespace CommunityServices.UI
         {
             try
             {
-                var user = _auth.Login(txtUser.Text.Trim(),txtPass.Text.Trim());
+                var user = _auth.Login(txtUser.Text.Trim(), txtPass.Text.Trim());
+
+                // Paslepiam login, bet programos neuždarom
                 Hide();
 
                 var main = new MainForm(user, _adminService, _managerService, _residentService);
-                main.FormClosed += (_, __) => Close();
+
+                // Kai MainForm užsidaro (Logout arba X), grįžtam į LoginForm
+                main.FormClosed += (_, __) =>
+                {
+                    txtPass.Text = "";      // saugiau
+                    // txtUser.Text = "";   // jei nori, kad išvalytų ir username
+                    Show();
+                    Activate();
+                };
+
                 main.Show();
             }
             catch (Exception ex)
