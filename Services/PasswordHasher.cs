@@ -6,7 +6,6 @@ namespace CommunityServices.Services
 {
     public static class PasswordHasher
     {
-        // Paprasta SHA256 (mokymosi projektui OK). Realiose sistemose naudok BCrypt/Argon2.
         public static string Hash(string input)
         {
             using var sha = SHA256.Create();
