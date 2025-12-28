@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using CommunityServices.Domain;
 using CommunityServices.Services;
@@ -16,8 +15,10 @@ namespace CommunityServices.UI
         private TextBox txtLast = new() { Left = 640, Top = 10, Width = 160, PlaceholderText = "Pavardė" };
         private Button btnCreate = new() { Left = 810, Top = 8, Width = 160, Text = "Kurti auto" };
 
+        private Button btnRefreshCommunities = new() { Left = 200, Top = 48, Width = 260, Text = "Atnaujinti bendrijas" };
+
         private TextBox txtDeleteId = new() { Left = 10, Top = 50, Width = 180, PlaceholderText = "User ID (šalinimui)" };
-        private Button btnDelete = new() { Left = 200, Top = 48, Width = 260, Text = "Šalinti vartotoją" };
+        private Button btnDelete = new() { Left = 470, Top = 48, Width = 330, Text = "Šalinti vartotoją" };
 
         private Label lblOut = new() { Left = 10, Top = 90, Width = 960, Height = 80 };
 
@@ -25,17 +26,32 @@ namespace CommunityServices.UI
         {
             _svc = svc;
 
-            Controls.AddRange(new Control[] { cmbRole, cmbCommunity, txtFirst, txtLast, btnCreate, txtDeleteId, btnDelete, lblOut });
+            Controls.AddRange(new Control[]
+            {
+                cmbRole, cmbCommunity, txtFirst, txtLast, btnCreate,
+                txtDeleteId, btnRefreshCommunities, btnDelete,
+                lblOut
+            });
 
             cmbRole.Items.AddRange(new object[] { Role.MANAGER, Role.RESIDENT });
             cmbRole.SelectedIndex = 0;
 
             LoadCommunities();
 
-            cmbRole.SelectedIndexChanged += (_, __) => cmbCommunity.Enabled = ((Role)cmbRole.SelectedItem!) == Role.RESIDENT;
+            cmbRole.SelectedIndexChanged += (_, __) =>
+            {
+                cmbCommunity.Enabled = ((Role)cmbRole.SelectedItem!) == Role.RESIDENT;
+            };
 
             btnCreate.Click += (_, __) => CreateAuto();
             btnDelete.Click += (_, __) => DeleteUser();
+
+            btnRefreshCommunities.Click += (_, __) =>
+            {
+                var prev = cmbCommunity.SelectedValue;
+                LoadCommunities();
+                if (prev != null) cmbCommunity.SelectedValue = prev;
+            };
         }
 
         private void LoadCommunities()
@@ -54,6 +70,7 @@ namespace CommunityServices.UI
                 var role = (Role)cmbRole.SelectedItem!;
                 var first = txtFirst.Text.Trim();
                 var last = txtLast.Text.Trim();
+
                 if (string.IsNullOrWhiteSpace(first) || string.IsNullOrWhiteSpace(last))
                     throw new ArgumentException("Įveskite vardą ir pavardę.");
 
@@ -64,7 +81,9 @@ namespace CommunityServices.UI
                 }
                 else
                 {
-                    if (cmbCommunity.SelectedValue == null) throw new InvalidOperationException("Pasirinkite bendriją.");
+                    if (cmbCommunity.SelectedValue == null)
+                        throw new InvalidOperationException("Pasirinkite bendriją.");
+
                     int communityId = Convert.ToInt32(cmbCommunity.SelectedValue);
                     var creds = _svc.CreateResidentAuto(first, last, communityId);
                     lblOut.Text = $"SUKURTA: Resident (Bendrija ID={communityId}). Username={creds.username}, Password={creds.password}";
@@ -82,6 +101,7 @@ namespace CommunityServices.UI
             {
                 if (!int.TryParse(txtDeleteId.Text.Trim(), out var id))
                     throw new ArgumentException("Neteisingas User ID.");
+
                 _svc.DeleteUser(id);
                 lblOut.Text = $"Ištrintas vartotojas ID={id}";
             }

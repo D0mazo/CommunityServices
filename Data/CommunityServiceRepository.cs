@@ -11,9 +11,9 @@ namespace CommunityServices.Data
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-INSERT INTO community_services (community_id, service_id)
-VALUES (@c, @s);
-SELECT LAST_INSERT_ID();";
+            INSERT INTO community_services (community_id, service_id)
+            VALUES (@c, @s);
+            SELECT LAST_INSERT_ID();";
             cmd.Parameters.AddWithValue("@c", communityId);
             cmd.Parameters.AddWithValue("@s", serviceId);
             return Convert.ToInt32(cmd.ExecuteScalar());
@@ -24,8 +24,8 @@ SELECT LAST_INSERT_ID();";
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-DELETE FROM community_services
-WHERE community_id=@c AND service_id=@s;";
+            DELETE FROM community_services
+            WHERE community_id=@c AND service_id=@s;";
             cmd.Parameters.AddWithValue("@c", communityId);
             cmd.Parameters.AddWithValue("@s", serviceId);
         }
@@ -36,16 +36,16 @@ WHERE community_id=@c AND service_id=@s;";
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-SELECT cs.id AS cs_id,
-       s.name AS service_name,
-       s.description,
-       p.price,
-       COALESCE(p.currency,'EUR') AS currency
-FROM community_services cs
-JOIN services s ON s.id = cs.service_id
-LEFT JOIN prices p ON p.community_service_id = cs.id
-WHERE cs.community_id = @c
-ORDER BY s.name;";
+            SELECT cs.id AS cs_id,
+                   s.name AS service_name,
+                   s.description,
+                   p.price,
+                   COALESCE(p.currency,'EUR') AS currency
+            FROM community_services cs
+            JOIN services s ON s.id = cs.service_id
+            LEFT JOIN prices p ON p.community_service_id = cs.id
+            WHERE cs.community_id = @c
+            ORDER BY s.name;";
             cmd.Parameters.AddWithValue("@c", communityId);
 
             using var r = cmd.ExecuteReader();

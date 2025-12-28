@@ -12,8 +12,8 @@ namespace CommunityServices.Data
             using var conn = Db.OpenConnection();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-INSERT INTO communities (name) VALUES (@n);
-SELECT LAST_INSERT_ID();";
+            INSERT INTO communities (name) VALUES (@n);
+            SELECT LAST_INSERT_ID();";
             cmd.Parameters.AddWithValue("@n", name);
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
