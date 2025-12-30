@@ -9,6 +9,13 @@ namespace CommunityServices.Data
         (int id, string username, string passHash, string firstName, string lastName, Role role, int? communityId)? GetByUsername(string username);
         int CreateUser(string username, string passwordHash, string firstName, string lastName, Role role, int? communityId);
         void DeleteUser(int userId);
+
+
+       
+        List<UserListItem> GetAll(string? firstNameFilter);
+
+        void UpdateUser(int id, string username, string firstName, string lastName, Role role, int? communityId);
+
     }
 
     public interface ICommunityRepository

@@ -1,7 +1,8 @@
 ﻿using CommunityServices.Data;
 using CommunityServices.Domain;
 using System.Collections.Generic;
-
+using System;
+using System.Collections.Generic;
 
 
 namespace CommunityServices.Services
@@ -24,12 +25,29 @@ namespace CommunityServices.Services
         public void DeleteCommunity(int id) => _communities.Delete(id);
         public List<Community> GetAllCommunities() => _communities.GetAll();
 
+
         public int CreateService(string name, string? description) => _services.Create(name, description);
         public void UpdateService(int id, string name, string? description) => _services.Update(id, name, description);
         public void DeleteService(int id) => _services.Delete(id);
         public List<ServiceItem> GetAllServices() => _services.GetAll();
 
-        // Auto credentials: username = vardas, password = pavardė (reikalavimas)
+
+        public List<UserListItem> GetUsers(string? firstNameFilter)
+            => _users.GetAll(firstNameFilter);
+
+ 
+        public void UpdateUser(int id, string username, string firstName, string lastName, Role role, int? communityId)
+        {
+            if (role == Role.RESIDENT && communityId == null)
+                throw new ArgumentException("RESIDENT privalo turėti bendriją (community).");
+
+            if (role != Role.RESIDENT)
+                communityId = null;
+
+            _users.UpdateUser(id, username.Trim(), firstName.Trim(), lastName.Trim(), role, communityId);
+        }
+
+ 
         public (string username, string password) CreateManagerAuto(string firstName, string lastName)
         {
             var username = firstName.Trim();

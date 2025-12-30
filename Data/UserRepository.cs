@@ -14,10 +14,13 @@ namespace CommunityServices.Data
             using var cmd = conn.CreateCommand();
 
             cmd.CommandText = @"
+
             SELECT id, username, password_hash, first_name, last_name, role, community_id
             FROM users
             WHERE username = @u
             LIMIT 1;";
+
+
             cmd.Parameters.AddWithValue("@u", username);
 
             using var r = cmd.ExecuteReader();
@@ -47,9 +50,11 @@ namespace CommunityServices.Data
             using var cmd = conn.CreateCommand();
 
             cmd.CommandText = @"
+
             INSERT INTO users (username, password_hash, first_name, last_name, role, community_id)
             VALUES (@u, @p, @fn, @ln, @r, @cid);
             SELECT LAST_INSERT_ID();";
+
 
             cmd.Parameters.AddWithValue("@u", username);
             cmd.Parameters.AddWithValue("@p", passwordHash);
@@ -72,5 +77,67 @@ namespace CommunityServices.Data
             if (cmd.ExecuteNonQuery() == 0)
                 throw new InvalidOperationException("Vartotojas neegzistuoja.");
         }
+
+        public List<UserListItem> GetAll(string? firstNameFilter)
+        {
+            using var conn = Db.OpenConnection();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+SELECT id, username, first_name, last_name, role, community_id
+FROM users
+WHERE (@fn IS NULL OR first_name LIKE CONCAT('%', @fn, '%'))
+ORDER BY id DESC;";
+
+            cmd.Parameters.AddWithValue("@fn", string.IsNullOrWhiteSpace(firstNameFilter) ? null : firstNameFilter.Trim());
+
+            using var r = cmd.ExecuteReader();
+            var list = new List<UserListItem>();
+
+            while (r.Read())
+            {
+                var role = Enum.Parse<Role>(r.GetString("role"));
+
+                int? communityId =
+                    r.IsDBNull(r.GetOrdinal("community_id"))
+                    ? null
+                    : r.GetInt32("community_id");
+
+                list.Add(new UserListItem
+                {
+                    Id = r.GetInt32("id"),
+                    Username = r.GetString("username"),
+                    FirstName = r.GetString("first_name"),
+                    LastName = r.GetString("last_name"),
+                    Role = role,
+                    CommunityId = communityId
+                });
+            }
+
+            return list;
+        }
+
+        public void UpdateUser(int id, string username, string firstName, string lastName, Role role, int? communityId)
+        {
+            using var conn = Db.OpenConnection();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+UPDATE users
+SET username=@u, first_name=@fn, last_name=@ln, role=@r, community_id=@cid
+WHERE id=@id;";
+
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@u", username);
+            cmd.Parameters.AddWithValue("@fn", firstName);
+            cmd.Parameters.AddWithValue("@ln", lastName);
+            cmd.Parameters.AddWithValue("@r", role.ToString());
+            cmd.Parameters.AddWithValue("@cid", (object?)communityId ?? DBNull.Value);
+
+            if (cmd.ExecuteNonQuery() == 0)
+                throw new InvalidOperationException("Vartotojas neegzistuoja.");
+        }
+
+
     }
 }
