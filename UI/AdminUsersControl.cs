@@ -12,8 +12,8 @@ namespace CommunityServices.UI
 
         // ===== FILTER / LIST =====
         private TextBox txtFilter = new() { Left = 10, Top = 10, Width = 220, PlaceholderText = "Filtruoti pagal vardą" };
-        private Button btnSearch = new() { Left = 240, Top = 8, Width = 90, Text = "Ieškoti" };
-        private Button btnAll = new() { Left = 335, Top = 8, Width = 110, Text = "Rodyti visus" };
+        private Button btnSearch = new() { Left = 240, Top = 8, Width = 90, Height = 40, Text = "Ieškoti" };
+        private Button btnAll = new() { Left = 335, Top = 8, Width = 110, Height = 40, Text = "Rodyti visus" };
 
         private DataGridView grid = new()
         {
@@ -38,7 +38,7 @@ namespace CommunityServices.UI
         private ComboBox cmbCreateRole = new() { Left = 390, Top = 25, Width = 140, DropDownStyle = ComboBoxStyle.DropDownList };
         private ComboBox cmbCreateCommunity = new() { Left = 540, Top = 25, Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
 
-        private Button btnCreate = new() { Left = 750, Top = 23, Width = 190, Text = "Sukurti vartotoją" };
+        private Button btnCreate = new() { Left = 750, Top = 23, Width = 190,Height = 40, Text = "Sukurti vartotoją" };
 
         private Label lblCreateHint = new() { Left = 10, Top = 60, Width = 930, Height = 45, AutoSize = false };
 
@@ -53,12 +53,12 @@ namespace CommunityServices.UI
         private ComboBox cmbRole = new() { Left = 670, Top = 25, Width = 140, DropDownStyle = ComboBoxStyle.DropDownList };
         private ComboBox cmbCommunity = new() { Left = 820, Top = 25, Width = 130, DropDownStyle = ComboBoxStyle.DropDownList };
 
-        private Button btnSave = new() { Left = 10, Top = 60, Width = 160, Text = "Išsaugoti" };
+        private Button btnSave = new() { Left = 10, Top = 60, Width = 160, Height = 40, Text = "Išsaugoti" };
 
         // ===== DELETE USER =====
         private GroupBox grpDelete = new() { Left = 10, Top = 550, Width = 960, Height = 70, Text = "Trinti vartotoją" };
         private TextBox txtDeleteId = new() { Left = 10, Top = 28, Width = 160, PlaceholderText = "User ID trynimui" };
-        private Button btnDelete = new() { Left = 180, Top = 26, Width = 120, Text = "Trinti" };
+        private Button btnDelete = new() { Left = 180, Top = 26, Width = 120, Height = 40, Text = "Trinti" };
 
         public AdminUsersControl(AdminService svc)
         {

@@ -10,9 +10,9 @@ namespace CommunityServices.UI
         private DataGridView grid = new() { Dock = DockStyle.Top, Height = 360, ReadOnly = true, AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill };
         private TextBox txtName = new() { Left = 10, Top = 380, Width = 220 };
         private TextBox txtDesc = new() { Left = 240, Top = 380, Width = 360 };
-        private Button btnAdd = new() { Left = 610, Top = 378, Width = 120, Text = "Sukurti" };
-        private Button btnUpdate = new() { Left = 740, Top = 378, Width = 120, Text = "Atnaujinti" };
-        private Button btnDelete = new() { Left = 870, Top = 378, Width = 120, Text = "Šalinti" };
+        private Button btnAdd = new() { Left = 610, Top = 378, Width = 120, Height = 40, Text = "Sukurti" };
+        private Button btnUpdate = new() { Left = 740, Top = 378, Width = 120, Height = 40, Text = "Atnaujinti" };
+        private Button btnDelete = new() { Left = 870, Top = 378, Width = 120, Height = 40, Text = "Šalinti" };
 
         public AdminServicesControl(AdminService svc)
         {

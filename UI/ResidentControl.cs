@@ -11,8 +11,8 @@ namespace CommunityServices.UI
         private readonly int _communityId;
 
         private TextBox txtSearch = new() { Left = 10, Top = 10, Width = 360, PlaceholderText = "Paieška pagal paslaugos pavadinimą..." };
-        private Button btnSearch = new() { Left = 380, Top = 8, Width = 120, Text = "Filtruoti" };
-        private Button btnClear = new() { Left = 510, Top = 8, Width = 120, Text = "Valyti" };
+        private Button btnSearch = new() { Left = 380, Top = 8, Width = 120, Height = 40, Text = "Filtruoti" };
+        private Button btnClear = new() { Left = 510, Top = 8, Width = 120, Height = 40, Text = "Valyti" };
 
         private DataGridView grid = new() { Left = 10, Top = 50, Width = 960, Height = 520, ReadOnly = true, AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill };
 
