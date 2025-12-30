@@ -14,7 +14,7 @@ namespace CommunityServices
         {
             ApplicationConfiguration.Initialize();
 
-            // DI (paprastas rankinis)
+            
             var userRepo = new UserRepository();
             var commRepo = new CommunityRepository();
             var servRepo = new ServiceRepository();

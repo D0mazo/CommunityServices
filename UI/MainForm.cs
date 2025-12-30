@@ -30,15 +30,15 @@ namespace CommunityServices.UI
             Width = 1000;
             Height = 650;
 
-            // Top bar
+           
             lblUser.Text = $"Prisijungęs: {_user.Role} ({_user.Username})";
             topBar.Controls.Add(lblUser);
             topBar.Controls.Add(btnLogout);
 
-            // Logout – uždaro MainForm, o LoginForm jį vėl parodys (LoginForm.cs)
+        
             btnLogout.Click += (_, __) => Close();
 
-            // kad mygtukas būtų dešinėje, kai keičiasi lango plotis
+           
             topBar.Resize += (_, __) =>
             {
                 btnLogout.Left = topBar.Width - btnLogout.Width - 12;
