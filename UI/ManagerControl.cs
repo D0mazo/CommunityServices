@@ -7,17 +7,18 @@ namespace CommunityServices.UI
 {
     public class ManagerControl : UserControl
     {
+        
         private readonly ManagerService _svc;
 
         private ComboBox cmbCommunity = new() { Left = 10, Top = 10, Width = 280, DropDownStyle = ComboBoxStyle.DropDownList };
         private ComboBox cmbService = new() { Left = 300, Top = 10, Width = 280, DropDownStyle = ComboBoxStyle.DropDownList };
-        private Button btnAssign = new() { Left = 590, Top = 8, Width = 160, Text = "Priskirti" };
+        private Button btnAssign = new() { Left = 590, Top = 8, Width = 160, Height = 40, Text = "Priskirti" };
 
         private DataGridView grid = new() { Left = 10, Top = 50, Width = 960, Height = 420, ReadOnly = true, AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill };
 
         private TextBox txtPrice = new() { Left = 10, Top = 490, Width = 120, PlaceholderText = "Kaina" };
-        private Button btnSetPrice = new() { Left = 140, Top = 488, Width = 200, Text = "Nustatyti / redaguoti kainą" };
-        private Label lblHint = new() { Left = 360, Top = 492, Width = 610, Height = 40, Text = "Pasirinkite eilutę (bendrijos paslauga), tada įveskite kainą." };
+        private Button btnSetPrice = new() { Left = 140, Top = 488, Width = 250, Height = 40, Text = "Nustatyti / redaguoti kainą" };
+        private Label lblHint = new() { Left = 410, Top = 492, Width = 560, Height = 40, Text = "Pasirinkite eilutę (bendrijos paslauga), tada įveskite kainą." };
 
         public ManagerControl(ManagerService svc)
         {
