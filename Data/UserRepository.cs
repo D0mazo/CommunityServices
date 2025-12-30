@@ -14,10 +14,10 @@ namespace CommunityServices.Data
             using var cmd = conn.CreateCommand();
 
             cmd.CommandText = @"
-SELECT id, username, password_hash, first_name, last_name, role, community_id
-FROM users
-WHERE username = @u
-LIMIT 1;";
+            SELECT id, username, password_hash, first_name, last_name, role, community_id
+            FROM users
+            WHERE username = @u
+            LIMIT 1;";
             cmd.Parameters.AddWithValue("@u", username);
 
             using var r = cmd.ExecuteReader();
@@ -47,9 +47,9 @@ LIMIT 1;";
             using var cmd = conn.CreateCommand();
 
             cmd.CommandText = @"
-INSERT INTO users (username, password_hash, first_name, last_name, role, community_id)
-VALUES (@u, @p, @fn, @ln, @r, @cid);
-SELECT LAST_INSERT_ID();";
+            INSERT INTO users (username, password_hash, first_name, last_name, role, community_id)
+            VALUES (@u, @p, @fn, @ln, @r, @cid);
+            SELECT LAST_INSERT_ID();";
 
             cmd.Parameters.AddWithValue("@u", username);
             cmd.Parameters.AddWithValue("@p", passwordHash);
